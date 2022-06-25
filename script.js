@@ -20,16 +20,11 @@ const output = document.getElementById('output')
 let mode = ''
 let numberToggle = true
 let firstNumber = true
-let firstSet = true
 let number_one = ''
 let number_two = ''
 
 clearBtn.addEventListener('click', () => {
-  output.innerText = '0'
-  number_one = 0
-  number_two = 0
-  firstNumber = true
-  numberToggle = true
+  reset('0')
 })
 
 zeroBtn.addEventListener('click', () => {
@@ -95,9 +90,6 @@ function display(x) {
   } else {
     number_two += x
   }
-  if (!firstSet) {
-    doMath()
-  }
 }
 
 function operate(x) {
@@ -127,6 +119,15 @@ function doMath() {
   } else if (mode == 'add') {
     outcome = num1 + num2
   }
-  number_one = outcome
-  output.innerText = outcome
+  reset(outcome)
+}
+
+function reset(outcome) {
+  let number = String(outcome)
+  mode = ''
+  output.innerText = number
+  number_one = number
+  number_two = ''
+  firstNumber = true
+  numberToggle = true
 }
