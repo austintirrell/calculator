@@ -19,6 +19,7 @@ const output = document.getElementById('output')
 
 let mode = ''
 let setCounter = 0
+let operatorOn = false
 let decimalOn = false
 let numberToggle = true
 let firstNumber = true
@@ -114,9 +115,13 @@ function display(x) {
       number_two += x
     }
   }
+  operatorOn = false;
 }
 
 function operate(x) {
+  if (operatorOn) {
+    return
+  }
   equalOn = false
   decimalOn = false
   if (setCounter > 0) {
@@ -130,6 +135,7 @@ function operate(x) {
     numberToggle = true
   }
   firstNumber = true
+  operatorOn = true
 }
 
 function doMath() {
