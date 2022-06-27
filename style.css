@@ -18,6 +18,7 @@ body {
   min-height: 100vh;
   background: #111;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -75,4 +76,30 @@ button {
 
 #zero {
   width: 10.75rem;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: #EEE;
+  position: absolute;
+  bottom: 0;
+}
+
+footer a {
+  display: flex;
+  align-items: center;
+}
+
+footer a p {
+  color: #111;
+}
+
+.github {
+  background: url("githubIcon.png") no-repeat;
+  background-size: 100%;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: .25rem;
 }

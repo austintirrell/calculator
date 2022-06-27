@@ -18,6 +18,7 @@ const decimalBtn = document.getElementById('decimal')
 const output = document.getElementById('output')
 
 let mode = ''
+let setCounter = 0
 let decimalOn = false
 let numberToggle = true
 let firstNumber = true
@@ -87,8 +88,6 @@ equalBtn.addEventListener('click', () => {
 })
 
 function display(x) {
-  //if firstNumber is true erase the '0' display
-  //change display to what is entered
   if (firstNumber) {
     if (x == '0') {
       return
@@ -102,7 +101,6 @@ function display(x) {
       output.innerText += x
     }
   }
-  //change number on input depending on which one is toggled
   if (numberToggle) {
     if (number_one.length >= 10) {
       return
@@ -118,18 +116,14 @@ function display(x) {
   }
 }
 
-let setCounter = 0
-
 function operate(x) {
   equalOn = false
   decimalOn = false
-  //set mode to "mode"
   if (setCounter > 0) {
     doMath()
   }
   mode = x
   setCounter++
-  //switch number toggle to start editing opposite number
   if (numberToggle) {
     numberToggle = false
   } else {
@@ -160,7 +154,7 @@ function doMath() {
 function reset(x) {
   let number = String(x)
   if (number.length > 10) {
-    number = number.slice(0,8) + '...'
+    number = number.slice(0,9) + '...'
   }
   mode = ''
   if (x === '') {
