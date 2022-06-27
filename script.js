@@ -18,6 +18,7 @@ const decimalBtn = document.getElementById('decimal')
 const output = document.getElementById('output')
 
 let mode = ''
+let decimalOn = false
 let numberToggle = true
 let firstNumber = true
 let number_one = ''
@@ -57,6 +58,14 @@ eightBtn.addEventListener('click', () => {
 nineBtn.addEventListener('click', () => {
   display('9')
 })
+decimalBtn.addEventListener('click', () => {
+  if (decimalOn) {
+    return
+  } else {
+    display('.')
+    decimalOn = true
+  }
+})
 
 divideBtn.addEventListener('click', () => {
   operate('divide')
@@ -71,30 +80,49 @@ plusBtn.addEventListener('click', () => {
   operate('add')
 })
 
+let equalOn = false
 equalBtn.addEventListener('click', () => {
   doMath()
+  equalOn = true
 })
 
 function display(x) {
   //if firstNumber is true erase the '0' display
   //change display to what is entered
   if (firstNumber) {
+    if (x == '0') {
+      return
+    }
     output.innerText = x
     firstNumber = false
   } else {
-    output.innerText += x
+    if (output.innerText.length >= 10) {
+      return
+    } else {
+      output.innerText += x
+    }
   }
   //change number on input depending on which one is toggled
   if (numberToggle) {
-    number_one += x
+    if (number_one.length >= 10) {
+      return
+    } else {
+      number_one += x
+    }
   } else {
-    number_two += x
+    if (number_two.length >= 10) {
+      return
+    } else {
+      number_two += x
+    }
   }
 }
 
 let setCounter = 0
 
 function operate(x) {
+  equalOn = false
+  decimalOn = false
   //set mode to "mode"
   if (setCounter > 0) {
     doMath()
@@ -107,15 +135,16 @@ function operate(x) {
   } else {
     numberToggle = true
   }
-  //clear display to 0 and reinstate firstNumber
-  output.innerText = '0'
   firstNumber = true
 }
 
 function doMath() {
+  if (equalOn) {
+    return
+  }
   let outcome = 0
-  let num1 = parseInt(number_one)
-  let num2 = parseInt(number_two)
+  let num1 = parseFloat(number_one)
+  let num2 = parseFloat(number_two)
   if (mode == 'divide') {
     outcome = num1 / num2
   } else if (mode == 'multiply') {
@@ -128,10 +157,13 @@ function doMath() {
   reset(outcome)
 }
 
-function reset(outcome) {
-  let number = String(outcome)
+function reset(x) {
+  let number = String(x)
+  if (number.length > 10) {
+    number = number.slice(0,8) + '...'
+  }
   mode = ''
-  if (outcome === '') {
+  if (x === '') {
     output.innerText = '0'
   } else {
     output.innerText = number
