@@ -120,6 +120,7 @@ function display(x) {
 
 function operate(x) {
   if (operatorOn) {
+    mode = x
     return
   }
   equalOn = false
