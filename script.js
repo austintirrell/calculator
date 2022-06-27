@@ -24,7 +24,7 @@ let number_one = ''
 let number_two = ''
 
 clearBtn.addEventListener('click', () => {
-  reset('0')
+  reset('')
 })
 
 zeroBtn.addEventListener('click', () => {
@@ -92,9 +92,15 @@ function display(x) {
   }
 }
 
+let setCounter = 0
+
 function operate(x) {
   //set mode to "mode"
+  if (setCounter > 0) {
+    doMath()
+  }
   mode = x
+  setCounter++
   //switch number toggle to start editing opposite number
   if (numberToggle) {
     numberToggle = false
@@ -125,9 +131,14 @@ function doMath() {
 function reset(outcome) {
   let number = String(outcome)
   mode = ''
-  output.innerText = number
+  if (outcome === '') {
+    output.innerText = '0'
+  } else {
+    output.innerText = number
+  }
   number_one = number
   number_two = ''
   firstNumber = true
   numberToggle = true
+  setCounter = 0
 }
