@@ -103,6 +103,7 @@ function doMath() {
   } else if (mode == '+') {
     outcome = num1 + num2
   }
+  outcome = outcome.toFixed(2)
   reset(outcome)
 }
 
