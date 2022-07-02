@@ -1,94 +1,40 @@
+const numberButtons = document.querySelectorAll('[number-button]')
+const operatorButtons = document.querySelectorAll('[operator-button]')
+const equalBtn = document.getElementById('equal-button')
 const clearBtn = document.getElementById('clear')
-const divideBtn = document.getElementById('divide')
-const multiplyBtn = document.getElementById('multiply')
-const minusBtn = document.getElementById('minus')
-const plusBtn = document.getElementById('plus')
-const equalBtn = document.getElementById('equal')
-const zeroBtn = document.getElementById('zero')
-const oneBtn = document.getElementById('one')
-const twoBtn = document.getElementById('two')
-const threeBtn = document.getElementById('three')
-const fourBtn = document.getElementById('four')
-const fiveBtn = document.getElementById('five')
-const sixBtn = document.getElementById('six')
-const sevenBtn = document.getElementById('seven')
-const eightBtn = document.getElementById('eight')
-const nineBtn = document.getElementById('nine')
-const decimalBtn = document.getElementById('decimal')
 const output = document.getElementById('output')
 
 let mode = ''
+let number_one = ''
+let number_two = ''
 let setCounter = 0
+let equalOn = false
 let operatorOn = false
 let decimalOn = false
 let numberToggle = true
 let firstNumber = true
-let number_one = ''
-let number_two = ''
 
-clearBtn.addEventListener('click', () => {
-  reset('')
+numberButtons.forEach((button) => {
+  button.addEventListener('click', () => display(button.textContent))
 })
-
-zeroBtn.addEventListener('click', () => {
-  display('0')
+operatorButtons.forEach((button) => {
+  button.addEventListener('click', () => operate(button.textContent))
 })
-oneBtn.addEventListener('click', () => {
-  display('1')
-})
-twoBtn.addEventListener('click', () => {
-  display('2')
-})
-threeBtn.addEventListener('click', () => {
-  display('3')
-})
-fourBtn.addEventListener('click', () => {
-  display('4')
-})
-fiveBtn.addEventListener('click', () => {
-  display('5')
-})
-sixBtn.addEventListener('click', () => {
-  display('6')
-})
-sevenBtn.addEventListener('click', () => {
-  display('7')
-})
-eightBtn.addEventListener('click', () => {
-  display('8')
-})
-nineBtn.addEventListener('click', () => {
-  display('9')
-})
-decimalBtn.addEventListener('click', () => {
-  if (decimalOn) {
-    return
-  } else {
-    display('.')
-    decimalOn = true
-  }
-})
-
-divideBtn.addEventListener('click', () => {
-  operate('divide')
-})
-multiplyBtn.addEventListener('click', () => {
-  operate('multiply')
-})
-minusBtn.addEventListener('click', () => {
-  operate('minus')
-})
-plusBtn.addEventListener('click', () => {
-  operate('add')
-})
-
-let equalOn = false
 equalBtn.addEventListener('click', () => {
   doMath()
   equalOn = true
 })
+clearBtn.addEventListener('click', () => reset(''))
+window.addEventListener('keydown', handleKeydown)
 
 function display(x) {
+  if (x == '.') {
+    if (decimalOn) {
+      return
+    } else {
+      decimalOn = true
+    }
+  }
   if (firstNumber) {
     if (x == '0') {
       return
@@ -143,16 +89,18 @@ function doMath() {
   if (equalOn) {
     return
   }
+
   let outcome = 0
   let num1 = parseFloat(number_one)
   let num2 = parseFloat(number_two)
-  if (mode == 'divide') {
+
+  if (mode == '/') {
     outcome = num1 / num2
-  } else if (mode == 'multiply') {
+  } else if (mode == 'X') {
     outcome = num1 * num2
-  } else if (mode == 'minus') {
+  } else if (mode == '-') {
     outcome = num1 - num2
-  } else if (mode == 'add') {
+  } else if (mode == '+') {
     outcome = num1 + num2
   }
   reset(outcome)
@@ -161,7 +109,7 @@ function doMath() {
 function reset(x) {
   let number = String(x)
   if (number.length > 10) {
-    number = number.slice(0,9) + '...'
+    number = number.slice(0, 9) + '...'
   }
   mode = ''
   if (x === '') {
@@ -174,4 +122,21 @@ function reset(x) {
   firstNumber = true
   numberToggle = true
   setCounter = 0
+  decimalOn = false
+}
+
+function handleKeydown(e) {
+  if (e.key >= 0 && e.key <= 9 || e.key == '.') {
+    display(e.key)
+  }
+  if (e.key === '=' || e.key === 'Enter') {
+    doMath()
+    equalOn = true
+  }
+  if (e.key === 'Escape') {
+    reset('')
+  }
+  if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+    operate(e.key)
+  }
 }
