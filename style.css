@@ -82,7 +82,6 @@ footer {
   display: flex;
   justify-content: center;
   width: 100%;
-  background: #333;
   position: absolute;
   bottom: 0;
 }
